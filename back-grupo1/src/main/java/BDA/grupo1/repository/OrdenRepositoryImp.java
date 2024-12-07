@@ -19,13 +19,14 @@ public class OrdenRepositoryImp implements OrdenRepository{
     public Orden crear(Orden orden) {
         try (Connection con = sql2o.open()) {
             // query para crear una orden
-            String sql = "INSERT INTO orden (fecha_orden, estado, id_cliente, total) " +
-                    "VALUES (:fecha_orden, :estado, :id_cliente, :total)";
+            String sql = "INSERT INTO orden (fecha_orden, estado, id_cliente, total, ubicacion_entrega) " +
+                    "VALUES (:fecha_orden, :estado, :id_cliente, :total, :ubicacion_entrega)";
             con.createQuery(sql)
                     .addParameter("fecha_orden", orden.getFecha_orden())
                     .addParameter("estado", orden.getEstado())
                     .addParameter("id_cliente", orden.getId_cliente())
                     .addParameter("total", orden.getTotal())
+                    .addParameter("ubicacion_entrega", orden.getUbicacion_entrega())
                     .executeUpdate(); // ejecución de la query
             return orden;
         } catch (Exception e) {
@@ -48,7 +49,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
     public String update(Orden orden, Integer id_orden) {
         try (Connection con = sql2o.open()) {
             // query para actualizar los datos de una orden
-            String sql = "UPDATE orden SET fecha_orden = :fecha_orden, estado = :estado, id_cliente = :id_cliente, total = :total " +
+            String sql = "UPDATE orden SET fecha_orden = :fecha_orden, estado = :estado, id_cliente = :id_cliente, total = :total , ubicacion_entrega = :ubicacion_entrega" +
                     "WHERE id_orden = :id_orden";
             con.createQuery(sql)
                     .addParameter("id_orden", id_orden)
@@ -56,6 +57,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
                     .addParameter("estado", orden.getEstado())
                     .addParameter("id_cliente", orden.getId_cliente())
                     .addParameter("total", orden.getTotal())
+                    .addParameter("ubicacion_entrega", orden.getUbicacion_entrega())
                     .executeUpdate(); // ejecución de la query
             return "Se actualizó la orden con éxito";
         } catch (Exception e) {

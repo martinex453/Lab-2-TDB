@@ -44,7 +44,7 @@ INSERT INTO cliente (nombre, direccion, email, telefono, contrasena, rol) VALUES
 
 
 -- Insertar zonas
-INSERT INTO zonas (nombre, tipo, zona_geom) VALUES
+INSERT INTO zona (nombre, tipo, zona_geom) VALUES
 ('Zona Norte', 'reparto', ST_GeomFromText('POLYGON((-70.64826 -33.43722, -70.64826 -33.4000, -70.6000 -33.4000, -70.6000 -33.43722, -70.64826 -33.43722))', 4326)),
 ('Zona Sur', 'reparto', ST_GeomFromText('POLYGON((-70.6000 -33.43722, -70.6000 -33.4000, -70.54826 -33.4000, -70.54826 -33.43722, -70.6000 -33.43722))', 4326)),
 ('Zona Este', 'restringida', ST_GeomFromText('POLYGON((-70.54826 -33.43722, -70.54826 -33.4000, -70.5000 -33.4000, -70.5000 -33.43722, -70.54826 -33.43722))', 4326)),

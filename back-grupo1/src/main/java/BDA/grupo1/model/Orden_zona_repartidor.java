@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DetalleOrden {
-    private Long id_detalle;
+public class Orden_zona_repartidor {
+    private Long id;
     private Integer id_orden;
-    private Integer id_producto;
-    private Integer cantidad;
-    private Double precio_unitario;
+    private Integer id_zona;
+    private Integer id_repartidor;
 }

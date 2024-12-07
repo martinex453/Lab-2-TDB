@@ -45,7 +45,7 @@ CREATE TABLE producto (
 );
 
 -- 4. Crear tabla zonas
-CREATE TABLE zonas (
+CREATE TABLE zona (
     id_zona SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     tipo VARCHAR(50) CHECK (tipo IN ('reparto', 'restringida')) NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE orden_zona_repartidor (
     id_zona INTEGER NOT NULL,
     id_repartidor INTEGER NOT NULL,
     FOREIGN KEY (id_orden) REFERENCES orden(id_orden) ON DELETE CASCADE,
-    FOREIGN KEY (id_zona) REFERENCES zonas(id_zona) ON DELETE SET NULL,
+    FOREIGN KEY (id_zona) REFERENCES zona(id_zona) ON DELETE SET NULL,
     FOREIGN KEY (id_repartidor) REFERENCES repartidor(id_repartidor) ON DELETE SET NULL
 );
 

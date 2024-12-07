@@ -34,7 +34,7 @@ public class OrdenService {
         ordenRepository.delete(id);
     }
 
-    // servicio para obtener las ordenes sgún el tamaño de la página
+    // servicio para obtener las ordenes según el tamaño de la página
     public List<Orden> getOrdersPage(Integer page, Integer pageSize){
         return ordenRepository.getOrdenPages(page,pageSize);
     }
