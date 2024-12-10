@@ -1,10 +1,13 @@
 package BDA.grupo1.service;
 
 import BDA.grupo1.model.Orden;
+import BDA.grupo1.model.Zona;
 import BDA.grupo1.repository.OrdenRepository;
+import BDA.grupo1.repository.ZonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -13,6 +16,9 @@ public class OrdenService {
 
     @Autowired
     private OrdenRepository ordenRepository;
+
+    @Autowired
+    private ZonaService zonaService;
 
     // servicio para crear una orden
     public Orden crear(Orden orden) {
@@ -57,6 +63,10 @@ public class OrdenService {
     // servicio para obtener el identificador de una orden según su Timestamp
     public Integer getOrdenIDByTimestamp(){
         return ordenRepository.getOrdenIDByTimestamp();
+    }
+
+    public Boolean getIfPointIsInRestrictedZone(Point point){
+        return ordenRepository.getIfPointIsInRestrictedZone(point);
     }
 
 }

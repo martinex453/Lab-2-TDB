@@ -1,5 +1,6 @@
 package BDA.grupo1.service;
 
+import BDA.grupo1.model.Zona;
 import BDA.grupo1.repository.RepartidorRepository;
 import BDA.grupo1.model.Repartidor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,6 @@ public class RepartidorService {
     public String update(Repartidor repartidor, Integer id){ return repartidorRepository.update(repartidor,id);}
 
     public void delete(Integer id) {repartidorRepository.delete(id);}
+
+    public List<Repartidor> getRepartidorByZona(Zona zona){return repartidorRepository.getRepartidorByZone(zona);}
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +146,25 @@ public class OrdenRepositoryImp implements OrdenRepository{
                         .addParameter("id_cliente", User)
                         .executeAndFetch(Orden.class); // ejecución de la query
             }
+        }
+    }
+
+    public Boolean getIfPointIsInRestrictedZone(Point point) {
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT EXISTS (" +
+                    "  SELECT 1 " +
+                    "  FROM zona " +
+                    "  WHERE tipo = 'restringida' " +
+                    "    AND ST_Contains(geom, ST_SetSRID(ST_Point(:x, :y), 4326))" +
+                    ")";
+
+            return con.createQuery(sql)
+                    .addParameter("x", point.getX())
+                    .addParameter("y", point.getY())
+                    .executeScalar(Boolean.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 

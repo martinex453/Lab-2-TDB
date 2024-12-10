@@ -1,6 +1,7 @@
 package BDA.grupo1.repository;
 
 import BDA.grupo1.model.Repartidor;
+import BDA.grupo1.model.Zona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
@@ -63,6 +64,23 @@ public class RepartidorRepositoryImp implements RepartidorRepository{
                     .executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public List<Repartidor> getRepartidorByZone(Zona zona){
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT r.id_repartidor, r.nombre " +
+                    "FROM repartidor r " +
+                    "JOIN orden_repartidor ro ON r.id_repartidor = ro.id_repartidor "+
+                    "JOIN orden o ON ro.id_orden = o.id_orden " +
+                    "JOIN zona z ON ST_Contains(z.zona_geom, o.ubicacion_entrega) " +
+                    "WHERE z.id_zona = :id_zona";
+            return con.createQuery(sql)
+                    .addParameter("id_zona",zona.getId_zona())
+                    .executeAndFetch(Repartidor.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 }

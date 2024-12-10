@@ -1,6 +1,7 @@
 package BDA.grupo1.controller;
 
 
+import BDA.grupo1.model.Zona;
 import BDA.grupo1.service.ClienteSesionService;
 import BDA.grupo1.service.RepartidorService;
 import BDA.grupo1.model.Repartidor;
@@ -38,5 +39,10 @@ public class RepartidorController {
     public void deleteRepartidor(@PathVariable Integer id, @RequestParam Integer id_cliente){
         clienteSesionService.crear(id_cliente);
         repartidorService.delete(id);
+    }
+
+    @GetMapping("/repartidor/getByZona")
+    public List<Repartidor> getRepartidorByZona(@RequestBody Zona zona){
+        return repartidorService.getRepartidorByZona(zona);
     }
 }

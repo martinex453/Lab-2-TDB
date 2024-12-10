@@ -19,4 +19,5 @@ public class EmpresaService {
 
     public void delete(Integer id){empresaRepository.delete(id);}
 
+    public Double areaZona(Long id_empresa) { return empresaRepository.areaZona(id_empresa); }
 }

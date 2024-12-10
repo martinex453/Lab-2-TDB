@@ -3,6 +3,7 @@ package BDA.grupo1.repository;
 import BDA.grupo1.model.Orden;
 
 
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface OrdenRepository {
     public List<Orden> getOrdenByUserId(int id);
     public Orden getOrdenById(int id);
     public Integer getOrdenIDByTimestamp();
+    public Boolean getIfPointIsInRestrictedZone(Point point);
 }

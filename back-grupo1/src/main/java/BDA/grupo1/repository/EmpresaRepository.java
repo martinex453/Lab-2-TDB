@@ -10,4 +10,5 @@ public interface EmpresaRepository {
     public List<Empresa> getAll();
     public String update(Empresa empresa, Integer id);
     public void delete(Integer id);
+    public Double areaZona(Long id_empresa);
 }

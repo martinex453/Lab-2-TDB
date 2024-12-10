@@ -6,6 +6,7 @@ import BDA.grupo1.service.OrdenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -65,5 +66,10 @@ public class OrdenController {
     @GetMapping("/orden/timestamp")
     public Integer getOrdenTimestamp() {
         return ordenService.getOrdenIDByTimestamp();
+    }
+
+    @GetMapping("/orden/point_restricted")
+    public Boolean getIfPointIsInRestrictedZone(@RequestBody Point point){
+        return ordenService.getIfPointIsInRestrictedZone(point);
     }
 }

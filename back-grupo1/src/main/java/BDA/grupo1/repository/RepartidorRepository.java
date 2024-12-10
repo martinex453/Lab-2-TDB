@@ -1,6 +1,7 @@
 package BDA.grupo1.repository;
 
 import BDA.grupo1.model.Repartidor;
+import BDA.grupo1.model.Zona;
 
 import java.util.List;
 
@@ -9,4 +10,5 @@ public interface RepartidorRepository {
     public List<Repartidor> getAll();
     public String update(Repartidor repartidor, Integer id);
     public void delete(Integer id);
+    public List<Repartidor> getRepartidorByZone(Zona zona);
 }

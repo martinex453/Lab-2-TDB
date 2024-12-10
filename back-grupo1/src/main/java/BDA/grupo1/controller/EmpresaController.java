@@ -37,4 +37,9 @@ public class EmpresaController {
         clienteSesionService.crear(id_cliente);
         empresaService.delete(id);
     }
+
+    @GetMapping("/empresa/area_zonas")
+    public Double areaZonas(@RequestBody Empresa empresa){
+        return empresaService.areaZona(empresa.getId_empresa());
+    }
 }
