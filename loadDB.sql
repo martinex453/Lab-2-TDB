@@ -75,7 +75,7 @@ INSERT INTO orden (fecha_orden, estado, id_cliente, total, ubicacion_entrega) VA
 
 
 -- Insertar relaciones entre orden, zona y repartidor
-INSERT INTO orden_zona_repartidor (id_orden, id_repartidor) VALUES
+INSERT INTO orden_repartidor (id_orden, id_repartidor) VALUES
 (1, 1),
 (2, 2),
 (3, 3),

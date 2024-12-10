@@ -155,7 +155,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
                     "  SELECT 1 " +
                     "  FROM zona " +
                     "  WHERE tipo = 'restringida' " +
-                    "    AND ST_Contains(geom, ST_SetSRID(ST_Point(:x, :y), 4326))" +
+                    "    AND ST_Contains(zona_geom, ST_SetSRID(ST_Point(:x, :y), 4326))" +
                     ")";
 
             return con.createQuery(sql)

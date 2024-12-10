@@ -113,7 +113,7 @@ CREATE TABLE empresa_zona (
 );
 
 -- Crear índices espaciales
-CREATE INDEX idx_zonas_geom ON zonas USING GIST (zona_geom);
+CREATE INDEX idx_zonas_geom ON zona USING GIST (zona_geom);
 CREATE INDEX idx_orden_geom ON orden USING GIST (ubicacion_entrega);
 
 

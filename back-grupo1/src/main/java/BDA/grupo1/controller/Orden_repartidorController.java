@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@CrossOrigin
 public class Orden_repartidorController {
     @Autowired
     private Orden_repartidorService orden__repartidorService;

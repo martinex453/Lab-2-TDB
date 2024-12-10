@@ -67,15 +67,17 @@ public class EmpresaRepositoryImp implements EmpresaRepository{
 
     public Double areaZona(Long id_empresa){
         try(Connection con = sql2o.open()){
-            String sql = "e.nombre AS empresa, ST_Area(ST_Union(z.zona_geom, 3857)) AS area_m2" +
-                    "FRROM empresa e" +
-                    "JOIN empresa_zona ez ON e.id_empresa = ez.id_empresa" +
-                    "JOIN zona z ON ez.id_zona = z.id_zona" +
-                    "WHERE z.tipo = 'entrega' AND e.idempresa = :id_empresa" +
-                    "GROUP BY e.nombre";
-            return con.createQuery(sql)
+            String sql = "SELECT ST_Area(ST_Transform(ST_Union(z.zona_geom), 3857)) " +
+                    "FROM empresa e " +
+                    "JOIN empresa_zona ez ON e.id_empresa = ez.id_empresa " +
+                    "JOIN zona z ON ez.id_zona = z.id_zona " +
+                    "WHERE z.tipo = 'reparto' AND e.id_empresa = :id_empresa " +
+                    "GROUP BY e.nombre ";
+            Double resultado = con.createQuery(sql)
                     .addParameter("id_empresa",id_empresa)
                     .executeScalar(Double.class);
+            System.out.println(resultado);
+            return resultado;
         } catch (Exception e){
             System.out.println(e.getMessage());
             return 0.0;
