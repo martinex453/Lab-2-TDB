@@ -74,20 +74,19 @@ INSERT INTO orden (fecha_orden, estado, id_cliente, total, ubicacion_entrega) VA
 ('2024-11-25 09:30:00', 'pagada', 9, 1700000, ST_SetSRID(ST_MakePoint(-70.580, -33.455), 4326));
 
 
-
 -- Insertar relaciones entre orden, zona y repartidor
-INSERT INTO orden_zona_repartidor (id_orden, id_zona, id_repartidor) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 1, 3),
-(4, 3, 4),
-(5, 2, 1),
-(6, 3, 2),
-(7, 1, 3),
-(8, 2, 4),
-(9, 1, 1),
-(10, 2, 2),
-(11, 3, 3);
+INSERT INTO orden_zona_repartidor (id_orden, id_repartidor) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 1),
+(6, 2),
+(7, 3),
+(8, 4),
+(9, 1),
+(10, 2),
+(11, 3);
 
 
 -- Insertar detalles de órdenes
@@ -109,3 +108,20 @@ INSERT INTO detalle_orden (id_orden, id_producto, cantidad, precio_unitario) VAL
 (10, 2, 1, 1200000),
 (11, 1, 1, 500000),
 (11, 2, 1, 1200000);
+
+
+-- Insertar detalles de empresas
+INSERT INTO empresa (rut, nombre) VALUES
+('12345678-9', 'Empresa A'),
+('98765432-1', 'Empresa B'),
+('11223344-5', 'Empresa C'),
+('55667788-0', 'Empresa D');
+
+
+-- Insertar detalles de zonas entrega de empresas
+INSERT INTO empresa_zona (id_zona, id_empresa) VALUES
+(1, 1),
+(2, 1),
+(1, 2),
+(2, 3),
+(1, 4);

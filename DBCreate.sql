@@ -71,13 +71,11 @@ CREATE TABLE orden (
 );
 
 -- 7. Crear la tabla orden_zona_repartidor
-CREATE TABLE orden_zona_repartidor (
+CREATE TABLE orden_repartidor (
     id SERIAL PRIMARY KEY,
     id_orden INTEGER NOT NULL,
-    id_zona INTEGER NOT NULL,
     id_repartidor INTEGER NOT NULL,
     FOREIGN KEY (id_orden) REFERENCES orden(id_orden) ON DELETE CASCADE,
-    FOREIGN KEY (id_zona) REFERENCES zona(id_zona) ON DELETE SET NULL,
     FOREIGN KEY (id_repartidor) REFERENCES repartidor(id_repartidor) ON DELETE SET NULL
 );
 
@@ -96,6 +94,22 @@ CREATE TABLE detalle_orden (
 CREATE TABLE cliente_sesion (
     id SERIAL PRIMARY KEY,
     cliente_id INTEGER NOT NULL
+);
+
+-- 10. Crear tabla empresa
+CREATE TABLE empresa (
+    id_empresa SERIAL PRIMARY KEY,  
+    rut VARCHAR(20) NOT NULL, 
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- 11. Crear tabla empresa_zona
+CREATE TABLE empresa_zona (
+    id_empresa_zona SERIAL PRIMARY KEY,  
+    id_zona INTEGER NOT NULL,
+    id_empresa INTEGER NOT NULL,
+    FOREIGN KEY (id_empresa) REFERENCES empresa(id_empresa) ON DELETE CASCADE,
+    FOREIGN KEY (id_zona) REFERENCES zona(id_zona) ON DELETE CASCADE
 );
 
 -- Crear índices espaciales
