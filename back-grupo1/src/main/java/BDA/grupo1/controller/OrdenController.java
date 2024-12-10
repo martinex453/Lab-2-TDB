@@ -69,8 +69,7 @@ public class OrdenController {
     }
 
     @GetMapping("/orden/point_restricted")
-    public Boolean getIfPointIsInRestrictedZone(@RequestBody Point point){
-        System.out.println(point);
-        return ordenService.getIfPointIsInRestrictedZone(point);
+    public Boolean getIfPointIsInRestrictedZone(@RequestParam Double x, @RequestParam Double y){
+        return ordenService.getIfPointIsInRestrictedZone(x,y);
     }
 }

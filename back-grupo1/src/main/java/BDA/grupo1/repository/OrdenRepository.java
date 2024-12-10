@@ -17,5 +17,5 @@ public interface OrdenRepository {
     public List<Orden> getOrdenByUserId(int id);
     public Orden getOrdenById(int id);
     public Integer getOrdenIDByTimestamp();
-    public Boolean getIfPointIsInRestrictedZone(Point point);
+    public Boolean getIfPointIsInRestrictedZone(Double x, Double y);
 }

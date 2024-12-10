@@ -65,8 +65,8 @@ public class OrdenService {
         return ordenRepository.getOrdenIDByTimestamp();
     }
 
-    public Boolean getIfPointIsInRestrictedZone(Point point){
-        return ordenRepository.getIfPointIsInRestrictedZone(point);
+    public Boolean getIfPointIsInRestrictedZone(Double x, Double y){
+        return ordenRepository.getIfPointIsInRestrictedZone(x,y);
     }
 
 }

@@ -149,18 +149,18 @@ public class OrdenRepositoryImp implements OrdenRepository{
         }
     }
 
-    public Boolean getIfPointIsInRestrictedZone(Point point) {
+    public Boolean getIfPointIsInRestrictedZone(Double x, Double y) {
         try (Connection con = sql2o.open()) {
             String sql = "SELECT EXISTS (" +
                     "  SELECT 1 " +
                     "  FROM zona " +
                     "  WHERE tipo = 'restringida' " +
-                    "    AND ST_Contains(zona_geom, ST_SetSRID(ST_Point(:x, :y), 4326))" +
+                    "    AND ST_Contains(ST_Transform(zona_geom, 4326), ST_SetSRID(ST_Point(:x, :y), 4326))" +
                     ")";
 
             return con.createQuery(sql)
-                    .addParameter("x", point.getX())
-                    .addParameter("y", point.getY())
+                    .addParameter("x", x)
+                    .addParameter("y", y)
                     .executeScalar(Boolean.class);
         } catch (Exception e) {
             System.out.println(e.getMessage());

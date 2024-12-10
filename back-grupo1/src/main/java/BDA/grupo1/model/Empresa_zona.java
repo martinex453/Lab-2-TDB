@@ -11,5 +11,4 @@ public class Empresa_zona {
     private Long id_empresa_zona;
     private Integer id_zona;
     private Integer id_empresa;
-
 }
