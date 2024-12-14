@@ -38,8 +38,8 @@ public class EmpresaController {
         empresaService.delete(id);
     }
 
-    @GetMapping("/empresa/area_zonas")
-    public Double areaZonas(@RequestBody Empresa empresa){
-        return empresaService.areaZona(empresa.getId_empresa());
+    @GetMapping("/empresa/area_zonas/{id}")
+    public Double areaZonas(@PathVariable Long id){
+        return empresaService.areaZona(id);
     }
 }
