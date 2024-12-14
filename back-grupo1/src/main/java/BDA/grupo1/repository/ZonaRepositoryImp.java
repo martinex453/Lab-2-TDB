@@ -67,4 +67,16 @@ public class ZonaRepositoryImp implements ZonaRepository{
             System.out.println(e.getMessage());
         }
     }
+
+    public List<Zona> zonas_disponibles(String tipo) {
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT id_zona, nombre FROM zona WHERE tipo = :tipo";
+            return con.createQuery(sql)
+                    .addParameter("tipo", tipo) // Asigna el valor al parámetro
+                    .executeAndFetch(Zona.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

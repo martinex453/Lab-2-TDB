@@ -29,6 +29,8 @@ public class ZonaController {
         return zonaService.findAll();
     }
 
+
+
     @PostMapping("/zona/update/{id_zona}")
     public String update(@RequestBody Zona zona, @PathVariable Integer id_zona, @RequestParam Integer id_cliente) {
         clienteSesionService.crear(id_cliente);
@@ -39,5 +41,10 @@ public class ZonaController {
     public void delete(@PathVariable Integer id_zona, @RequestParam Integer id_cliente) {
         clienteSesionService.crear(id_cliente);
         zonaService.delete(id_zona);
+    }
+
+    @GetMapping("/zona/getZonasValidas")
+    public List<Zona> getZonasValidas(@RequestParam String tipo) {
+        return zonaService.zonas_disponibles(tipo);
     }
 }

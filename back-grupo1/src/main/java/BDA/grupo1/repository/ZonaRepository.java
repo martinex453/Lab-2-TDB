@@ -8,4 +8,5 @@ public interface ZonaRepository {
     public List<Zona> getAll();
     public String update(Zona zona, Integer id);
     public void delete(Integer id);
+    public List<Zona> zonas_disponibles(String tipo);
 }

@@ -27,4 +27,6 @@ public class ZonaService {
     public void delete(Integer id_zona) {
         zonaRepository.delete(id_zona);
     }
+
+    public List<Zona> zonas_disponibles(String tipo) {return zonaRepository.zonas_disponibles(tipo);}
 }
