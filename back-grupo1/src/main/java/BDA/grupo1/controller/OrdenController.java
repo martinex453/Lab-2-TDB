@@ -72,4 +72,14 @@ public class OrdenController {
     public Boolean getIfPointIsInRestrictedZone(@RequestParam Double x, @RequestParam Double y){
         return ordenService.getIfPointIsInRestrictedZone(x,y);
     }
+
+    @GetMapping("/orden/TotalPages/{pageSize}")
+    public Integer getOrdenTotalPages(@PathVariable Integer pageSize) {
+        return ordenService.getOrdersTotalPages(pageSize);
+    }
+
+    @GetMapping("/orden/TotalPages/user/{User}/{pageSize}")
+    public Integer getOrdenTotalPagesUser(@PathVariable Integer User, @PathVariable Integer pageSize) {
+        return ordenService.getOrdersTotalPagesUser(User,pageSize);
+    }
 }

@@ -168,4 +168,28 @@ public class OrdenRepositoryImp implements OrdenRepository{
         }
     }
 
+    public Integer getOrdersTotalPages(Integer pageSize){
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT CEILING(COUNT(*)*1.0/:pageSize) AS cantidad FROM orden WHERE estado = 'pagada'";
+            return con.createQuery(sql)
+                    .addParameter("pageSize", pageSize)
+                    .executeScalar(Integer.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+
+    public Integer getOrdersTotalPagesUser(Integer User,Integer pageSize){
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT CEILING(COUNT(*)*1.0/:pageSize) AS cantidad FROM orden WHERE estado = 'pagada' AND id_cliente = :id_cliente";
+            return con.createQuery(sql)
+                    .addParameter("pageSize", pageSize)
+                    .addParameter("id_cliente", User)
+                    .executeScalar(Integer.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
 }

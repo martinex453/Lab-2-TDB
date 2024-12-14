@@ -18,4 +18,6 @@ public interface OrdenRepository {
     public Orden getOrdenById(int id);
     public Integer getOrdenIDByTimestamp();
     public Boolean getIfPointIsInRestrictedZone(Double x, Double y);
+    public Integer getOrdersTotalPages(Integer pageSize);
+    public Integer getOrdersTotalPagesUser(Integer User, Integer pageSize);
 }

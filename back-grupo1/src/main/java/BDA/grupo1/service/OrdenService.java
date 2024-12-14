@@ -69,4 +69,8 @@ public class OrdenService {
         return ordenRepository.getIfPointIsInRestrictedZone(x,y);
     }
 
+    public Integer getOrdersTotalPages(Integer pageSize){ return ordenRepository.getOrdersTotalPages(pageSize); }
+
+    public Integer getOrdersTotalPagesUser(Integer User, Integer pageSize){ return ordenRepository.getOrdersTotalPagesUser(User,pageSize); }
+
 }
