@@ -14,6 +14,7 @@
         </div>
         <div class="pagination-container">
             <button v-if="showPrevButton" @click="changePage(page - 1)" class="pageButton">Ant</button>
+            <button v-for="p in visiblePages" :key="p" @click="goToPage(p)" class="pageButton">{{ p }}</button>
             <button v-if="showNextButton" @click="changePage(page + 1)" class="pageButton">Sig</button>
         </div>
     </div>
@@ -30,6 +31,8 @@ export default {
             page: 1,
             pageSize: 12,
             isAdmin: localStorage.getItem("userRole") === "admin",
+            numberOfPages: 0,
+            visiblePages: []
         };
     },
     computed: {
@@ -39,40 +42,54 @@ export default {
         },
         showNextButton() {
             //Verificar si se puede mostrar el botón de página siguiente
-            return this.products.length === this.pageSize;
+            return this.page <= this.numberOfPages - 1;
         },
     },
     methods: {
         async getProducts() {
             try {
-                //Obtener el token de autenticación
                 const token = this.$cookies.get("jwt");
-                //Obtener los productos para la página actual
                 const response = await productService.getPoductsForPages(this.page, this.pageSize, token);
                 this.products = response.data;
             } catch (error) {
-                //Mostrar un mensaje de error si no se pueden obtener los productos
                 console.error(error);
             }
+        },
+        async numberPages() {
+            const response = await productService.getNumberOfPages(this.pageSize, this.$cookies.get("jwt"));
+            this.numberOfPages = response.data;
+            this.updateVisiblePages();
+        },
+        updateVisiblePages() {
+            const range = 2; // Número de páginas a mostrar antes y después de la página actual
+            const start = Math.max(1, this.page - range);
+            const end = Math.min(this.numberOfPages, this.page + range);
+
+            this.visiblePages = [];
+            for (let i = start; i <= end; i++) {
+                this.visiblePages.push(i);
+            }
+        },
+        async changePage(newPage) {
+            if (newPage < 1 || newPage > this.numberOfPages) return;
+            this.page = newPage;
+            this.getProducts();
+            this.updateVisiblePages();  // Actualiza las páginas visibles
         },
         productDetails(product) {
             //Redirigir al usuario a la página de compra del producto
             this.$router.push(`/purchase/${product.id_producto}`);
         },
-        async changePage(newPage) {
-            //Cambiar la página actual y obtener los productos, si es posible
-            if (newPage < 1) return;
-            this.page = newPage;
+        goToPage(page) {
+            this.page = page;
             this.getProducts();
-        },
-        editProduct(productId) {
-            //Redirigir al usuario a la página de edición del producto
-            this.$router.push(`/edit-product/${productId}`);
+            this.updateVisiblePages();  // Actualiza las páginas visibles
         },
     },
     mounted() {
         //Obtener los productos al cargar el componente
         this.getProducts();
+        this.numberPages();
     },
 };
 </script>

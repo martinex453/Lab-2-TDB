@@ -22,5 +22,5 @@ public class RepartidorService {
 
     public void delete(Integer id) {repartidorRepository.delete(id);}
 
-    public List<Repartidor> getRepartidorByZona(Zona zona){return repartidorRepository.getRepartidorByZone(zona);}
+    public List<Repartidor> getRepartidorByZona(Long id){return repartidorRepository.getRepartidorByZone(id);}
 }

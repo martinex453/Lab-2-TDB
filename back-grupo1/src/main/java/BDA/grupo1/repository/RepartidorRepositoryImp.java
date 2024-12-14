@@ -67,7 +67,7 @@ public class RepartidorRepositoryImp implements RepartidorRepository{
         }
     }
 
-    public List<Repartidor> getRepartidorByZone(Zona zona){
+    public List<Repartidor> getRepartidorByZone(Long id){
         try (Connection con = sql2o.open()) {
             String sql = "SELECT r.id_repartidor, r.nombre " +
                     "FROM repartidor r " +
@@ -76,7 +76,7 @@ public class RepartidorRepositoryImp implements RepartidorRepository{
                     "JOIN zona z ON ST_Contains(z.zona_geom, o.ubicacion_entrega) " +
                     "WHERE z.id_zona = :id_zona";
             return con.createQuery(sql)
-                    .addParameter("id_zona",zona.getId_zona())
+                    .addParameter("id_zona",id)
                     .executeAndFetch(Repartidor.class);
         } catch (Exception e) {
             System.out.println(e.getMessage());

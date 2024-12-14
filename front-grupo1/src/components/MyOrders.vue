@@ -30,7 +30,8 @@
             </table>
             <div class="pagination-container">
                 <button v-if="page > 1" @click="changePage(1)" class="pageButton">Ant</button>
-                <button v-if="orders.length === pageSize" @click="changePage(page + 1)" class="pageButton">Sig</button>
+                <button v-for="p in visiblePages" :key="p" @click="goToPage(p)" class="pageButton">{{ p }}</button>
+                <button v-if="page <= numberOfPages - 1" @click="changePage(page + 1)" class="pageButton">Sig</button>
             </div>
         </div>
     </div>
@@ -46,9 +47,11 @@ export default {
             orders: [],
             isAdmin: false,
             page: 1, //Numero de página actual
-            pageSize: 12, //Tamaño de la página
+            pageSize: 10, //Tamaño de la página
             id_user: localStorage.getItem('idUser'),
             token: this.$cookies.get("jwt"),
+            numberOfPages: 0,
+            visiblePages: []
         };
     },
     methods: {
@@ -82,6 +85,9 @@ export default {
                 console.log(order);
                 order.estado = 'enviada';
                 await orderService.updateOrder(order.id_orden, order, this.id_user, this.token);
+
+                //Generar tupla orden repartidor
+
                 //Actualizar la lista de órdenes
                 this.getOrders();
                 alert('Orden enviada correctamente');
@@ -95,6 +101,21 @@ export default {
             //Redirigir a la página de detalles de la orden
             this.$router.push(`/order/${orderId}`);
         },
+        async numberPages() {
+            const response = await orderService.getNumberOfPages(this.id_user, this.pageSize, this.$cookies.get("jwt"));
+            this.numberOfPages = response.data;
+            this.updateVisiblePages();
+        },
+        updateVisiblePages() {
+            const range = 2; // Número de páginas a mostrar antes y después de la página actual
+            const start = Math.max(1, this.page - range);
+            const end = Math.min(this.numberOfPages, this.page + range);
+
+            this.visiblePages = [];
+            for (let i = start; i <= end; i++) {
+                this.visiblePages.push(i);
+            }
+        },
         formatDate(date) {
             //Formatear la fecha de la orden
             const newDate = new Date(date);
@@ -105,14 +126,21 @@ export default {
             });
         },
         async changePage(newPage) {
-            //Cambiar la página actual y obtener las órdenes de la nueva página
+            if (newPage < 1 || newPage > this.numberOfPages) return;
             this.page = newPage;
-            await this.getOrders();
-        }
+            this.getOrders();
+            this.updateVisiblePages();  // Actualiza las páginas visibles
+        },
+        goToPage(page) {
+            this.page = page;
+            this.getOrders();
+            this.updateVisiblePages();  // Actualiza las páginas visibles
+        },
     },
     mounted() {
         //Llamar al método para obtener las órdenes de compra
         this.getOrders();
+        this.numberPages();
     }
 };
 </script>

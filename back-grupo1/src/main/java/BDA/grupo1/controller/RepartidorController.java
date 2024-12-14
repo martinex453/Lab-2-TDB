@@ -41,8 +41,8 @@ public class RepartidorController {
         repartidorService.delete(id);
     }
 
-    @GetMapping("/repartidor/getByZona")
-    public List<Repartidor> getRepartidorByZona(@RequestBody Zona zona){
-        return repartidorService.getRepartidorByZona(zona);
+    @GetMapping("/repartidor/getByZona/{id}")
+    public List<Repartidor> getRepartidorByZona(@PathVariable Long id){
+        return repartidorService.getRepartidorByZona(id);
     }
 }

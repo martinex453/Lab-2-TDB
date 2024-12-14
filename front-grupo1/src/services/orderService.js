@@ -73,6 +73,15 @@ const verificarZona = (x, y, token) => {
     });
 };
 
+const getNumberOfPages = (user, pageSize, token) => {
+    //Obtener numero de paginas
+    return httpClient.get(`/orden/TotalPages/user/${user}/${pageSize}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
 export default {
     makeOrder,
     getOrderByUserId,
@@ -81,5 +90,6 @@ export default {
     orderByTimestamp,
     submitOrder,
     getOrders,
-    verificarZona
+    verificarZona,
+    getNumberOfPages
 };

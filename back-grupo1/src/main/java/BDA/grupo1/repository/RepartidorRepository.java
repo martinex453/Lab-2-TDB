@@ -10,5 +10,5 @@ public interface RepartidorRepository {
     public List<Repartidor> getAll();
     public String update(Repartidor repartidor, Integer id);
     public void delete(Integer id);
-    public List<Repartidor> getRepartidorByZone(Zona zona);
+    public List<Repartidor> getRepartidorByZone(Long id);
 }

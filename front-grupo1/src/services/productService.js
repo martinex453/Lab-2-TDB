@@ -55,6 +55,14 @@ const applyDiscount = (token, idCategory, discount) =>{
     });
 }
 
+const getNumberOfPages = (pageSize, token) => {
+    //Obtener numero de paginas
+    return httpClient.get(`/producto/getTotalPages/${pageSize}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
 
 export default {
     getProductById,
@@ -62,5 +70,6 @@ export default {
     getAllproducts,
     updateStock,
     getPoductsForPages,
-    applyDiscount
+    applyDiscount,
+    getNumberOfPages
 };

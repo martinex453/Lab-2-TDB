@@ -40,12 +40,21 @@
                     <button @click="fetchTopSpenders">Top 5 Usuarios en Tecnología</button>
                 </div>
                 <div v-else-if="isDeliveryZonesView" class="delivery-zones-container">
-                    <form @submit.prevent="fetchDeliveryZones">
-                        <input type="text" v-model="selectedZone" placeholder="Ingrese la zona" class="styled-input" required>
+                    <form @submit.prevent="fetchRepartidores">
+                        <select v-model="selectedZone">
+                            <option v-for="zone in zones" :key="zone.id" :value="zone">
+                                {{ zone.nombre }}
+                            </option>
+                        </select>
                         <button type="submit">Obtener Repartidores</button>
                     </form>
                 </div>
                 <div v-else class="area-coverage-container">
+                    <select v-model="selectedEmpresa">
+                        <option v-for="empresa in empresas" :key="empresa.id" :value="empresa">
+                            {{ empresa.nombre }}
+                        </option>
+                    </select>
                     <button @click="fetchAreaCoverage">Calcular Área Total Cubierta</button>
                 </div>
 
@@ -64,7 +73,8 @@ import categoryService from '../services/categoryService';
 import clienteService from "../services/clientServices.js"; 
 import productService from "../services/productService.js";
 import repartidorService from "../services/repartidorService.js";
-import companyService from "../services/companyService.js"
+import companyService from "../services/companyService.js";
+import zonaService from "../services/zonaService";
 export default {
     //Definir las propiedades del componente
     data() {
@@ -72,10 +82,16 @@ export default {
             isDiscountView: true,
             isTopClientsView: false,
             isTopSpendersView: false,
-            selectedCategory: false,
-            selectedZone: false,
+            isAreaCoverageView: false,
+            isDeliveryZonesView: false,
+            selectedCategory: null,
+            selectedZone: "",
+            selectedEmpresa: null,
+            selectedZone: null,
             categories: [],
+            empresas: [],
             results: '',
+            zones: [],
             discount: 0
         };
     },
@@ -112,15 +128,33 @@ export default {
             const response = await categoryService.getAll(this.$cookies.get("jwt"));
             this.categories = response.data;
         },
-        async fetchDeliveryZones() {
-            //
-        },
         async fetchAreaCoverage() {
-            //
+            console.log(this.selectedEmpresa);
+            //obtener el área total cubierta por una empresa
+            const response = await companyService.AreaCompany(this.selectedEmpresa.id_empresa, this.$cookies.get("jwt"));
+            this.results = (response.data / 1000000).toFixed(4) + " km²";
+        },
+        async fetchEmpresas() {
+            // Obtener todas las empresas para listar
+            const response = await companyService.getAll(this.$cookies.get("jwt"));
+            this.empresas = response.data;
+        },  
+        async fetchZonas() {
+            // Obtener todas las zonas para listar
+            const response = await zonaService.getZonas("reparto",this.$cookies.get("jwt"));
+            this.zones= response.data;
+        }, 
+        async fetchRepartidores() {
+            // Obtener los repartidores de la zona selecionada
+            const response = await zonaService.getRepartidores(this.selectedZone.id_zona, this.$cookies.get("jwt"));
+            this.results = response.data.map(item => item.nombre);
         }
+
     },
     mounted() {
         //Cargar las categorías al cargar el componente
+        this.fetchZonas();
+        this.fetchEmpresas();
         this.loadCategories();
     }
 }

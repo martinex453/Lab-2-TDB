@@ -39,7 +39,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
     public List<Orden> getAll() {
         try (Connection con = sql2o.open()) {
             // query para obtener todas las ordenes de la tabla
-            String sql = "SELECT * FROM orden";
+            String sql = "SELECT id_orden, fecha_orden, estado, id_cliente, total FROM orden";
             return con.createQuery(sql).executeAndFetch(Orden.class);
         } catch (Exception e) {
             System.out.println(e.getMessage()); // mensaje en caso de error
@@ -50,7 +50,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
     public String update(Orden orden, Integer id_orden) {
         try (Connection con = sql2o.open()) {
             // query para actualizar los datos de una orden
-            String sql = "UPDATE orden SET fecha_orden = :fecha_orden, estado = :estado, id_cliente = :id_cliente, total = :total , ubicacion_entrega = :ubicacion_entrega" +
+            String sql = "UPDATE orden SET fecha_orden = :fecha_orden, estado = :estado, id_cliente = :id_cliente, total = :total" +
                     "WHERE id_orden = :id_orden";
             con.createQuery(sql)
                     .addParameter("id_orden", id_orden)
@@ -58,7 +58,6 @@ public class OrdenRepositoryImp implements OrdenRepository{
                     .addParameter("estado", orden.getEstado())
                     .addParameter("id_cliente", orden.getId_cliente())
                     .addParameter("total", orden.getTotal())
-                    .addParameter("ubicacion_entrega", orden.getUbicacion_entrega())
                     .executeUpdate(); // ejecución de la query
             return "Se actualizó la orden con éxito";
         } catch (Exception e) {
@@ -82,7 +81,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
     public List<Orden> getOrdenPages(int page, int pageSize){
         try (Connection con = sql2o.open()) {
             // query para obtener las ordenes según el tamaño de la página
-            String sql = "SELECT * FROM orden ORDER BY CASE WHEN estado = 'pagada' THEN 1 ELSE 2 END, id_orden LIMIT :pageSize OFFSET :offset";
+            String sql = "SELECT id_orden, fecha_orden, estado, id_cliente, total FROM orden ORDER BY CASE WHEN estado = 'pagada' THEN 1 ELSE 2 END, id_orden LIMIT :pageSize OFFSET :offset";
             Integer offset = (page - 1) * pageSize;
 
             try (Connection con2 = sql2o.open()) {
@@ -95,7 +94,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
     }
     public List<Orden> getOrdenByUserId(int id) {
         // query para obtener una orden según el identificador del usuario
-        String sql = "SELECT * FROM orden WHERE id_cliente = :id_cliente";
+        String sql = "SELECT id_orden, fecha_orden, estado, id_cliente, total FROM orden WHERE id_cliente = :id_cliente";
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
                     .addParameter("id_cliente", id)
@@ -136,7 +135,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
     public List<Orden> getOrdersPageUser(Integer User, int page, int pageSize){
         try (Connection con = sql2o.open()) {
             // query para obtener las ordenes de un usuario según el tamaño de la página
-            String sql = "SELECT * FROM orden WHERE id_cliente = :id_cliente ORDER BY id_orden LIMIT :pageSize OFFSET :offset ";
+            String sql = "SELECT id_orden, fecha_orden, estado, id_cliente, total FROM orden WHERE id_cliente = :id_cliente ORDER BY id_orden LIMIT :pageSize OFFSET :offset ";
             Integer offset = (page - 1) * pageSize;
 
             try (Connection con2 = sql2o.open()) {

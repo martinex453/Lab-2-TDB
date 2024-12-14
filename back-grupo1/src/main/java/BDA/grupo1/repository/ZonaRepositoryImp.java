@@ -33,7 +33,7 @@ public class ZonaRepositoryImp implements ZonaRepository{
 
     public List<Zona> getAll(){
         try(Connection con = sql2o.open()){
-            String sql = "SELECT * FROM zona";
+            String sql = "SELECT id_zona, nombre, tipo FROM zona";
              return con.createQuery(sql).executeAndFetch(Zona.class);
         } catch (Exception e){
             System.out.println(e.getMessage());

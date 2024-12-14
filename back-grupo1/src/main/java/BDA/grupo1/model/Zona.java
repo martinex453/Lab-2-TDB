@@ -13,5 +13,5 @@ public class Zona {
     private Long id_zona;
     private String nombre;
     private String tipo;
-    private Point zona_geom;
+    private Polygon zona_geom;
 }
