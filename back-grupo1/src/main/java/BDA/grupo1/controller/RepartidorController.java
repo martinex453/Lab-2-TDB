@@ -46,4 +46,8 @@ public class RepartidorController {
         return repartidorService.getRepartidorByZona(id);
     }
 
+    @GetMapping("/repartidor/random")
+    public Integer getRandomRepartidor(){
+        return repartidorService.getRandom();
+    }
 }

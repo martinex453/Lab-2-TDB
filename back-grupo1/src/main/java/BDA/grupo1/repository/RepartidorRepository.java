@@ -11,4 +11,5 @@ public interface RepartidorRepository {
     public String update(Repartidor repartidor, Integer id);
     public void delete(Integer id);
     public List<Repartidor> getRepartidorByZone(Long id);
+    public Integer getRandom();
 }

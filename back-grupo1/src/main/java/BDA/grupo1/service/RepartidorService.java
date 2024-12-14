@@ -23,4 +23,6 @@ public class RepartidorService {
     public void delete(Integer id) {repartidorRepository.delete(id);}
 
     public List<Repartidor> getRepartidorByZona(Long id){return repartidorRepository.getRepartidorByZone(id);}
+
+    public Integer getRandom(){return repartidorRepository.getRandom();}
 }

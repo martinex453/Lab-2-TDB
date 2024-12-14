@@ -83,4 +83,14 @@ public class RepartidorRepositoryImp implements RepartidorRepository{
             return null;
         }
     }
+
+    public Integer getRandom(){
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT id_repartidor FROM repartidor ORDER BY random() LIMIT 1";
+            return con.createQuery(sql).executeScalar(Integer.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
