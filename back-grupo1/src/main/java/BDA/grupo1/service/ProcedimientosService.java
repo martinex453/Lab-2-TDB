@@ -90,7 +90,7 @@ public class ProcedimientosService {
             detallesJson.put(detalleJson);
         }
         String detallesJsonString = detallesJson.toString();
-        String sql = "CALL registrar_orden(:p_id_cliente, :lista_detalleOrden::json, ST_SetSRID(ST_Point(:latitud, :longitud), 4326))"; // añadir parámetros a la query
+        String sql = "CALL registrar_orden(:p_id_cliente, :lista_detalleOrden::json, ST_SetSRID(ST_Point(:longitud, :latitud), 4326))"; // añadir parámetros a la query
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("p_id_cliente", idCliente)

@@ -2,12 +2,24 @@
     <div class="full-container">
         <div class="procedure-container">
             <h1>
-                {{ isDiscountView ? 'Aplicar Descuento' : isTopClientsView ? 'Obtener usuarios con más querys' : 'Top 5 Usuarios que más gastaron en Tecnología' }}
+                {{ isDiscountView
+                    ? 'Aplicar Descuento'
+                    : isTopClientsView
+                    ? 'Obtener usuarios con más querys':
+                    isTopSpendersView
+                    ? 'Top 5 Usuarios que más gastaron en Tecnología'
+                    : isDeliveryZonesView
+                    ? 'Listar Repartidores por Zona'
+                    : isAreaCoverageView
+                    ? 'Calcular Área Total Cubierta'
+                    : '' }}
             </h1>
             <div class="switch-container">
                 <button @click="toggleView('discount')" :class="{ active: isDiscountView }">Aplicar Descuento</button>
                 <button @click="toggleView('topClients')" :class="{ active: isTopClientsView }">Obtener usuarios con más querys</button>
                 <button @click="toggleView('topSpenders')" :class="{ active: isTopSpendersView }">Top 5 Usuarios en Tecnología</button>
+                <button @click="toggleView('deliveryZones')" :class="{ active: isDeliveryZonesView }">Listar Repartidores por Zona</button>
+                <button @click="toggleView('areaCoverage')" :class="{ active: isAreaCoverageView }">Calcular Área Cubierta</button>
             </div>
             <div class="action-container">
                 <div v-if="isDiscountView" class="discount-container">
@@ -24,9 +36,19 @@
                 <div v-else-if="isTopClientsView" class="top-clients-container">
                     <button @click="fetchTopClients">Obtener usuarios con más querys</button>
                 </div>
-                <div v-else class="top-spenders-container">
+                <div v-else-if="isTopSpendersView" class="top-spenders-container">
                     <button @click="fetchTopSpenders">Top 5 Usuarios en Tecnología</button>
                 </div>
+                <div v-else-if="isDeliveryZonesView" class="delivery-zones-container">
+                    <form @submit.prevent="fetchDeliveryZones">
+                        <input type="text" v-model="selectedZone" placeholder="Ingrese la zona" class="styled-input" required>
+                        <button type="submit">Obtener Repartidores</button>
+                    </form>
+                </div>
+                <div v-else class="area-coverage-container">
+                    <button @click="fetchAreaCoverage">Calcular Área Total Cubierta</button>
+                </div>
+
             </div>
         </div>
         <div v-if="results" class="results-container">
@@ -41,6 +63,8 @@
 import categoryService from '../services/categoryService';
 import clienteService from "../services/clientServices.js"; 
 import productService from "../services/productService.js";
+import repartidorService from "../services/repartidorService.js";
+import companyService from "../services/companyService.js"
 export default {
     //Definir las propiedades del componente
     data() {
@@ -48,7 +72,8 @@ export default {
             isDiscountView: true,
             isTopClientsView: false,
             isTopSpendersView: false,
-            selectedCategory: null,
+            selectedCategory: false,
+            selectedZone: false,
             categories: [],
             results: '',
             discount: 0
@@ -60,6 +85,8 @@ export default {
             this.isDiscountView = view === 'discount';
             this.isTopClientsView = view === 'topClients';
             this.isTopSpendersView = view === 'topSpenders';
+            this.isDeliveryZonesView = view === 'deliveryZones';
+            this.isAreaCoverageView = view === 'areaCoverage';
             //Limpiar los resultados al cambiar de vista
             this.results = '';
         },
@@ -84,6 +111,12 @@ export default {
             //Obtener las categorías de productos y asignarlas a la variable
             const response = await categoryService.getAll(this.$cookies.get("jwt"));
             this.categories = response.data;
+        },
+        async fetchDeliveryZones() {
+            //
+        },
+        async fetchAreaCoverage() {
+            //
         }
     },
     mounted() {
@@ -102,6 +135,7 @@ export default {
     width: 100%;
     gap: 20px;
     margin-top: 20px;
+    background-color: #f0f0f0;
 }
 
 .procedure-container {
@@ -109,9 +143,9 @@ export default {
     flex-direction: column;
     gap: 20px;
     padding: 20px;
-    background-color: #f0f0f0;
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     width: 800px;
 }
 
@@ -145,7 +179,7 @@ export default {
 .top-clients-container,
 .top-spenders-container {
     flex: 1;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;

@@ -46,9 +46,9 @@ const orderByTimestamp = (token) => {
     });
 }
 
-const submitOrder = (carrito, idUser, token) => {
+const submitOrder = (carrito, idUser, token, latitud, longitud) => {
     //Crear orden de compra
-    return httpClient.post(`/crearOrdenCompra/${idUser}`, carrito, {
+    return httpClient.post(`/crearOrdenCompra/${idUser}?latitud=${latitud}&longitud=${longitud}`, carrito, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -64,6 +64,15 @@ const getOrders = (nroPag, tamanioPag, token) => {
     });
 };
 
+const verificarZona = (x, y, token) => {
+    // Verificar si el punto está en una zona restringida
+    return httpClient.get(`/orden/point_restricted?x=${x}&y=${y}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+};
+
 export default {
     makeOrder,
     getOrderByUserId,
@@ -71,5 +80,6 @@ export default {
     updateOrder,
     orderByTimestamp,
     submitOrder,
-    getOrders
+    getOrders,
+    verificarZona
 };

@@ -126,6 +126,7 @@ export default {
     gap: 20px;
     padding: 20px;
     width: 100%;
+    height: 100vh;
     box-sizing: border-box;
     background-color: #F3F4F6;
     color: #1F2937;
@@ -183,11 +184,11 @@ export default {
 
 .input-field, .select-state, .textarea-field {
     width: 100%;
-    max-width: 20rem;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
-    margin-bottom: 10px;
+    max-width: 30rem;  /* Aumenta el ancho máximo */
+    padding: 15px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    border-radius: 8px;
     border: 1px solid #D1D5DB;
     box-sizing: border-box;
     background-color: #fff;
@@ -195,15 +196,17 @@ export default {
     transition: border-color 0.2s ease;
 }
 
+.textarea-field {
+    resize: vertical;
+    height: 150px;
+    font-size: 1.2rem;
+}
+
 .input-field:focus, .select-state:focus, .textarea-field:focus {
     border-color: #60A5FA;
     outline: none;
 }
 
-.textarea-field {
-    resize: vertical;
-    height: 100px;
-}
 
 .act-button, .no-stock-text {
     font-size: 1.5rem;

@@ -113,6 +113,7 @@ export default {
     gap: 20px;
     padding: 20px;
     width: 100%;
+    height: 100vh;
     box-sizing: border-box;
     background-color: #F3F4F6;
     color: #1F2937;

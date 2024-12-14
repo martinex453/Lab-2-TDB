@@ -72,6 +72,7 @@ body {
   overflow-x: hidden; /* Evita desplazamiento horizontal */
   margin: 0; /* Asegura que no haya márgenes externos */
   padding: 0; /* Asegura que no haya padding */
+  background-color: #f0f0f0;
 }
 
 
