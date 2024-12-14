@@ -12,4 +12,5 @@ public interface ProductoRepository {
     public List<Producto> getProductoPage(int pagina, int tamanoPagina);
     public Producto getproductoById(Integer id);
     public void updateProductoStock(Integer id, Integer stock);
+    public Integer getTotalPages(Integer pageSize);
 }

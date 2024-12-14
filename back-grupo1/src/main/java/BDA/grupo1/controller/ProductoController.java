@@ -56,4 +56,9 @@ public class ProductoController {
         clienteSesionService.crear(id_cliente); // Registra la sesión del cliente para que sea usado por el trigger de registro de querys
         productoService.updateProductoStock(id,stock);
     }
+
+    @GetMapping("/producto/getTotalPages/{pageSize}")
+    public Integer getTotalPages(@PathVariable Integer pageSize) {
+        return productoService.getTotalPages(pageSize);
+    }
 }

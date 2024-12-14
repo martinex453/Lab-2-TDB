@@ -120,4 +120,16 @@ public class ProductoRepositoryImp implements ProductoRepository{
         }
     }
 
+    public Integer getTotalPages(Integer pageSize){
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT CEILING(count(*)*1.0/:pageSize) AS CANTIDAD FROM producto";
+            return  con.createQuery(sql)
+                    .addParameter("pageSize", pageSize)
+                    .executeScalar(Integer.class);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+
 }

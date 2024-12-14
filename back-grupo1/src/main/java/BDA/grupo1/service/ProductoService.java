@@ -45,4 +45,6 @@ public class ProductoService {
 
     // servicio para actualizar el stock de un producto
     public void updateProductoStock(Integer id, Integer stock) { productoRepository.updateProductoStock(id, stock); }
+
+    public Integer getTotalPages(Integer pageSize){ return productoRepository.getTotalPages(pageSize); }
 }
