@@ -80,7 +80,7 @@ public class ProcedimientosService {
     }
 
     // crear una orden de compra mediante un procedimiento almacenado
-    public String crearOrdenCompra(int idCliente, List<DetalleOrden> detalles) throws JSONException {
+    public String crearOrdenCompra(int idCliente, List<DetalleOrden> detalles, Double latitud, Double longitud) throws JSONException {
         JSONArray detallesJson = new JSONArray(); // arreglo con los detalles de orden
         for (DetalleOrden detalle : detalles) {
             JSONObject detalleJson = new JSONObject();
@@ -90,11 +90,13 @@ public class ProcedimientosService {
             detallesJson.put(detalleJson);
         }
         String detallesJsonString = detallesJson.toString();
-        String sql = "CALL registrar_orden(:p_id_cliente, :lista_detalleOrden::json)"; // añadir parámetros a la query
+        String sql = "CALL registrar_orden(:p_id_cliente, :lista_detalleOrden::json, ST_SetSRID(ST_Point(:latitud, :longitud), 4326))"; // añadir parámetros a la query
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("p_id_cliente", idCliente)
-                    .addParameter("lista_detalleOrden", detallesJsonString) // Enviar JSON como string
+                    .addParameter("lista_detalleOrden", detallesJsonString)
+                    .addParameter("latitud", latitud)
+                    .addParameter("longitud", longitud)
                     .executeUpdate();
         }
         return "Orden creada con éxito";

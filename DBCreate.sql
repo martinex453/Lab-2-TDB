@@ -271,7 +271,8 @@ $$;
 -- Procedimiento almacenado para registrar una orden
 CREATE OR REPLACE PROCEDURE registrar_orden(
     p_id_cliente INT,
-    lista_detalleOrden JSON
+    lista_detalleOrden JSON,
+    p_ubicacion_entrega GEOMETRY
 )
 LANGUAGE plpgsql
 AS $$
@@ -286,7 +287,7 @@ DECLARE
 BEGIN
     -- Se crea la orden
     INSERT INTO orden (id_cliente, total, estado)
-    VALUES (p_id_cliente, 0, 'pagada')
+    VALUES (p_id_cliente, 0, 'pagada', p_ubicacion_entrega)
     RETURNING id_orden INTO v_id_orden;
     
     -- Iterar sobre cada detalle de producto del JSON
