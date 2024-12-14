@@ -286,7 +286,7 @@ DECLARE
     v_stock_actual INT;
 BEGIN
     -- Se crea la orden
-    INSERT INTO orden (id_cliente, total, estado)
+    INSERT INTO orden (id_cliente, total, estado, ubicacion_entrega)
     VALUES (p_id_cliente, 0, 'pagada', p_ubicacion_entrega)
     RETURNING id_orden INTO v_id_orden;
     
