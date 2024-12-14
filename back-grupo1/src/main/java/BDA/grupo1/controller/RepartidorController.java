@@ -45,4 +45,5 @@ public class RepartidorController {
     public List<Repartidor> getRepartidorByZona(@PathVariable Long id){
         return repartidorService.getRepartidorByZona(id);
     }
+
 }
