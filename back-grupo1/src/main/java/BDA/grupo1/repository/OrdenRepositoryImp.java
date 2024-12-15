@@ -154,7 +154,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
                     "  SELECT 1 " +
                     "  FROM zona " +
                     "  WHERE tipo = 'restringida' " +
-                    "    AND ST_Contains(ST_Transform(zona_geom, 4326), ST_SetSRID(ST_Point(:x, :y), 4326))" +
+                    "    AND ST_Contains(ST_Transform(zona_geom, 4326), ST_SetSRID(ST_Point(:y, :x), 4326))" +
                     ")";
 
             return con.createQuery(sql)
@@ -173,7 +173,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
                     "  SELECT 1 " +
                     "  FROM zona " +
                     "  WHERE tipo = 'reparto' " +
-                    "    AND ST_Contains(ST_Transform(zona_geom, 4326), ST_SetSRID(ST_Point(:x, :y), 4326))" +
+                    "    AND ST_Contains(ST_Transform(zona_geom, 4326), ST_SetSRID(ST_Point(:y, :x), 4326))" +
                     ")";
             return con.createQuery(sql)
                     .addParameter("x", x)
