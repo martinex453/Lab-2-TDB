@@ -29,7 +29,7 @@ Para ejecutar correctamente todo el proyecto, además de los archivos del reposi
 ## Instrucciones de uso
 1. Clona el repositorio en tu máquina local usando el siguiente comando:
 ```sh
-git clone https://github.com/martinex453/Lab-2-TDB-Grupo1.git
+git clone https://github.com/martinex453/Lab-2-TDB.git
 ```
 
 2. Configurar la base de datos
