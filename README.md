@@ -12,7 +12,7 @@ Este repositorio contiene todos los archivos relacionados con el Laboratorio N°
 
     3. Por defecto la aplicación se ejecuta en el puerto 5173.
        
-- Se trabajo de manera conjunta en el desarrollo de frontend mediante la extension liveshare disponible en visual studio code, es por esto que algunos integrantes no tienen commits o cuentan con muy pocos. Lo anterior se puede ver en las descripciones de algunos commits, donde se especifican los participan que aportaron al commit correspondiente.
+- Se trabajo de manera conjunta en el desarrollo de frontend mediante la extension liveshare disponible en visual studio code, es por esto que algunos integrantes no tienen commits o cuentan con muy pocos. Lo anterior se puede ver en las descripciones de algunos commits, donde se especifican los participantes que aportaron al commit correspondiente.
   
 - Ya que hay una funcionalidad que muestra los usuario con más querys, es por ello que se crearán 2 usuarios administradores, al primer administrador se asociarán todas las inserciones iniciales hechas en la carga de datos, y este no será considerado para el top. Por esto es importante que para la administración de la aplicación se haga uso del segundo usuario administrador creador por postman.
 
