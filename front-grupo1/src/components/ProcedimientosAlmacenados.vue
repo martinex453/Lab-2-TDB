@@ -48,6 +48,16 @@
                         </select>
                         <button type="submit">Obtener Repartidores</button>
                     </form>
+                    <div v-if="results && results.length > 0" class="results-list-container">
+                        <h2>Repartidores en la zona seleccionada:</h2>
+                        <ul class="results-list">
+                            <li v-for="(repartidor, index) in results" :key="index">
+                                <strong>Nombre:</strong> {{ repartidor.nombre }} <br>
+                                <strong>Teléfono:</strong> {{ repartidor.telefono }}
+                            </li>
+                        </ul>
+                    </div>
+                    <p v-else-if="results && results.length === 0">No se encontraron repartidores en esta zona.</p>
                 </div>
                 <div v-else class="area-coverage-container">
                     <select v-model="selectedEmpresa">
@@ -57,16 +67,15 @@
                     </select>
                     <button @click="fetchAreaCoverage">Calcular Área Total Cubierta</button>
                 </div>
-
             </div>
         </div>
-        <div v-if="results" class="results-container">
-        <h2>Resultados</h2>
-        <pre class="results-text">{{ results }}</pre>
-    </div>
-
+        <div v-if="results && !isDeliveryZonesView" class="results-container">
+            <h2>Resultados</h2>
+            <pre class="results-text">{{ results }}</pre>
+        </div>
     </div>
 </template>
+
 
 <script>
 import categoryService from '../services/categoryService';
@@ -146,8 +155,9 @@ export default {
         }, 
         async fetchRepartidores() {
             // Obtener los repartidores de la zona selecionada
-            const response = await zonaService.getRepartidores(this.selectedZone.id_zona, this.$cookies.get("jwt"));
-            this.results = response.data.map(item => item.nombre);
+            const response = await repartidorService.getRepartidorByZone(this.selectedZone.id_zona, this.$cookies.get("jwt"));
+            this.results = [...new Set(response.data.map(item => ({nombre: item.nombre, telefono: item.telefono})))];
+            console.log("Repartidores obtenidos:", this.results);
         }
 
     },
@@ -170,6 +180,20 @@ export default {
     gap: 20px;
     margin-top: 20px;
     background-color: #f0f0f0;
+}
+
+.results-list-container {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.results-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .procedure-container {
@@ -229,6 +253,7 @@ export default {
     overflow-y: auto;
     margin-top: 20px;
 }
+
 
 .results-text {
     color: #000;

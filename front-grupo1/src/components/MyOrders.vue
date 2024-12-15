@@ -39,6 +39,7 @@
 
 <script>
 import orderService from '@/services/orderService';
+import repartidorService from '@/services/repartidorService';
 
 export default {
     //Definir las propiedades del componente
@@ -84,10 +85,16 @@ export default {
                 //Cambiar el estado de la orden a 'enviada'
                 console.log(order);
                 order.estado = 'enviada';
+                console.log(order);
                 await orderService.updateOrder(order.id_orden, order, this.id_user, this.token);
-
                 //Generar tupla orden repartidor
-
+                const id_repartidor_random = await repartidorService.getRepartidorRandom(this.token);
+                const orderRepartidor = {
+                    id_orden: order.id_orden,
+                    id_repartidor: id_repartidor_random.data
+                }
+                await repartidorService.createOrderRepartidor(orderRepartidor, this.id_user, this.token);
+                
                 //Actualizar la lista de órdenes
                 this.getOrders();
                 alert('Orden enviada correctamente');
@@ -102,8 +109,13 @@ export default {
             this.$router.push(`/order/${orderId}`);
         },
         async numberPages() {
-            const response = await orderService.getNumberOfPages(this.id_user, this.pageSize, this.$cookies.get("jwt"));
-            this.numberOfPages = response.data;
+            if(this.isAdmin){
+                const response = await orderService.getNumberOfPagesAdmin(this.pageSize, this.$cookies.get("jwt"));
+                this.numberOfPages = response.data;
+            } else {
+                const response = await orderService.getNumberOfPages(this.id_user, this.pageSize, this.$cookies.get("jwt"));
+                this.numberOfPages = response.data;
+            }
             this.updateVisiblePages();
         },
         updateVisiblePages() {

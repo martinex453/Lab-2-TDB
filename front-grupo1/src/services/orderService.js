@@ -82,6 +82,15 @@ const getNumberOfPages = (user, pageSize, token) => {
     });
 }
 
+const getNumberOfPagesAdmin = (pageSize, token) => {
+    //Obtener numero de paginas
+    return httpClient.get(`/orden/TotalPages/${pageSize}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
 export default {
     makeOrder,
     getOrderByUserId,
@@ -91,5 +100,6 @@ export default {
     submitOrder,
     getOrders,
     verificarZona,
-    getNumberOfPages
+    getNumberOfPages,
+    getNumberOfPagesAdmin
 };

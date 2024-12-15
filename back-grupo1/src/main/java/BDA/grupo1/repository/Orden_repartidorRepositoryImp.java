@@ -17,7 +17,7 @@ public class Orden_repartidorRepositoryImp implements Orden_repartidorRepository
     public Orden_repartidor crear(Orden_repartidor ordenZonaRepartidor) {
         try (Connection con = sql2o.open()) {
             // query para crear una orden
-            String sql = "INSERT INTO orden_zona_repartidor (id_orden,id_repartidor) " +
+            String sql = "INSERT INTO orden_repartidor (id_orden,id_repartidor) " +
                     "VALUES (:id_orden, :id_repartidor)";
             con.createQuery(sql)
                     .addParameter("id_orden", ordenZonaRepartidor.getId_orden())
@@ -33,7 +33,7 @@ public class Orden_repartidorRepositoryImp implements Orden_repartidorRepository
     public List<Orden_repartidor> getAll() {
         try (Connection con = sql2o.open()) {
             // query para obtener todas las ordenes de la tabla
-            String sql = "SELECT * FROM orden_zona_repartidor";
+            String sql = "SELECT * FROM orden_repartidor";
             return con.createQuery(sql).executeAndFetch(Orden_repartidor.class);
         } catch (Exception e) {
             System.out.println(e.getMessage()); // mensaje en caso de error
@@ -44,7 +44,7 @@ public class Orden_repartidorRepositoryImp implements Orden_repartidorRepository
     public String update(Orden_repartidor ordenZonaRepartidor, Integer id) {
         try (Connection con = sql2o.open()) {
             // query para actualizar los datos de una orden
-            String sql = "UPDATE orden_zona_repartidor SET id_orden = :id_orden, id_repartidor = :id_repartidor" +
+            String sql = "UPDATE orden_repartidor SET id_orden = :id_orden, id_repartidor = :id_repartidor" +
                     "WHERE id = :id";
             con.createQuery(sql)
                     .addParameter("id_orden", ordenZonaRepartidor.getId_orden())
@@ -61,7 +61,7 @@ public class Orden_repartidorRepositoryImp implements Orden_repartidorRepository
     public void delete(Integer id) {
         try (Connection con = sql2o.open()) {
             // query para eliminar una orden según su identificador
-            String sql = "DELETE FROM orden_zona_repartidor WHERE id = :id";
+            String sql = "DELETE FROM orden_repartidor WHERE id = :id";
             con.createQuery(sql)
                     .addParameter("id", id)
                     .executeUpdate();

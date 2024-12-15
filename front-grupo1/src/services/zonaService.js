@@ -9,15 +9,6 @@ const getAll = (token) => {
     });
 };
 
-const getRepartidores = (id, token) => {
-    //Obtener los repartidores de una zona
-    return httpClient.get(`/repartidor/getByZona/${id}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-};
-
 const getZonas = (tipo, token) => {
     //Obtener las zonas segun su tipo
     return httpClient.get(`/zona/getZonasValidas?tipo=${tipo}`, {
@@ -28,6 +19,5 @@ const getZonas = (tipo, token) => {
 };
 
 export default {
-    getAll, getZonas, getRepartidores,
-    getRepartidores
+    getAll, getZonas
 };

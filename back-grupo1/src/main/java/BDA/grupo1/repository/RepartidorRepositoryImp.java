@@ -69,7 +69,7 @@ public class RepartidorRepositoryImp implements RepartidorRepository{
 
     public List<Repartidor> getRepartidorByZone(Long id){
         try (Connection con = sql2o.open()) {
-            String sql = "SELECT r.id_repartidor, r.nombre " +
+            String sql = "SELECT DISTINCT ON (r.id_repartidor) r.id_repartidor, r.nombre, r.telefono " +
                     "FROM repartidor r " +
                     "JOIN orden_repartidor ro ON r.id_repartidor = ro.id_repartidor "+
                     "JOIN orden o ON ro.id_orden = o.id_orden " +

@@ -50,7 +50,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
     public String update(Orden orden, Integer id_orden) {
         try (Connection con = sql2o.open()) {
             // query para actualizar los datos de una orden
-            String sql = "UPDATE orden SET fecha_orden = :fecha_orden, estado = :estado, id_cliente = :id_cliente, total = :total" +
+            String sql = "UPDATE orden SET fecha_orden = :fecha_orden, estado = :estado, id_cliente = :id_cliente, total = :total " +
                     "WHERE id_orden = :id_orden";
             con.createQuery(sql)
                     .addParameter("id_orden", id_orden)
@@ -107,7 +107,7 @@ public class OrdenRepositoryImp implements OrdenRepository{
 
     public Orden getOrdenById(int id) {
         // query para obtener una orden según su identificador
-        String sql = "SELECT * FROM orden WHERE id_orden = :id_orden";
+        String sql = "SELECT id_orden, fecha_orden, estado, id_cliente, total FROM orden WHERE id_orden = :id_orden";
         try (Connection con = sql2o.open()) {
             List<Orden> result = con.createQuery(sql)
                     .addParameter("id_orden", id)
