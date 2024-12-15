@@ -70,7 +70,7 @@ public class OrdenController {
 
     @GetMapping("/orden/point_restricted")
     public Boolean getIfPointIsInRestrictedZone(@RequestParam Double x, @RequestParam Double y){
-        return ordenService.getIfPointIsInRestrictedZone(x,y);
+        return ordenService.getIfPointIsInRestrictedZone(y,x);
     }
 
     @GetMapping("/orden/TotalPages/{pageSize}")

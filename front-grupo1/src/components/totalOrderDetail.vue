@@ -86,7 +86,12 @@ export default {
                 return;
             }
             // Verificar si la dirección ingresada está dentro de la zona de cobertura
-            await orderService.verificarZona(this.latitud, this.longitud, this.token);
+            const zona = await orderService.verificarZona(this.latitud, this.longitud, this.token);
+            console.log(zona);
+            if(zona.data == false){
+                alert("La dirección ingresada no está dentro de la zona de cobertura");
+                return;
+            }
             alert("Zona verificada con éxito, puede continuar con la orden de compra");
 
             //Convertir el carrito de compras a un arreglo JSON
