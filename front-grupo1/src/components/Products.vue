@@ -85,6 +85,10 @@ export default {
             this.getProducts();
             this.updateVisiblePages();  // Actualiza las páginas visibles
         },
+        editProduct(productId) {
+            //Redirigir al usuario a la página de edición del producto
+            this.$router.push(`/edit-product/${productId}`);
+        },
     },
     mounted() {
         //Obtener los productos al cargar el componente
