@@ -167,6 +167,24 @@ public class OrdenRepositoryImp implements OrdenRepository{
         }
     }
 
+    public Boolean getIfPointIsInDeliveryZone(Double x, Double y){
+        try (Connection con = sql2o.open()) {
+            String sql = "SELECT EXISTS (" +
+                    "  SELECT 1 " +
+                    "  FROM zona " +
+                    "  WHERE tipo = 'reparto' " +
+                    "    AND ST_Contains(ST_Transform(zona_geom, 4326), ST_SetSRID(ST_Point(:x, :y), 4326))" +
+                    ")";
+            return con.createQuery(sql)
+                    .addParameter("x", x)
+                    .addParameter("y", y)
+                    .executeScalar(Boolean.class);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public Integer getOrdersTotalPages(Integer pageSize){
         try (Connection con = sql2o.open()) {
             String sql = "SELECT CEILING(COUNT(*)*1.0/:pageSize) AS cantidad FROM orden WHERE estado = 'pagada'";

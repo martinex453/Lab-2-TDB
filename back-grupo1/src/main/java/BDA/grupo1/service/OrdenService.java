@@ -66,7 +66,15 @@ public class OrdenService {
     }
 
     public Boolean getIfPointIsInRestrictedZone(Double x, Double y){
-        return ordenRepository.getIfPointIsInRestrictedZone(x,y);
+        Boolean R1 =  ordenRepository.getIfPointIsInRestrictedZone(x,y);
+        Boolean R2 =  getIfPointIsInDeliveryZone(x,y);
+        System.out.println(R1);
+        System.out.println(R2);
+        return !R1 && R2;
+    }
+
+    public Boolean getIfPointIsInDeliveryZone(Double x, Double y){
+        return ordenRepository.getIfPointIsInDeliveryZone(x,y);
     }
 
     public Integer getOrdersTotalPages(Integer pageSize){ return ordenRepository.getOrdersTotalPages(pageSize); }
