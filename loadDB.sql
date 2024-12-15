@@ -32,8 +32,6 @@ INSERT INTO producto (nombre, descripcion, precio, stock, estado, id_categoria) 
 
 -- Insertar clientes
 INSERT INTO cliente (nombre, direccion, email, telefono, contrasena, rol) VALUES
-('admin1', 'Calle Falsa 123', 'admin1@example.com', '123456789', 'password123', 'cliente'), --Eliminar después
-('admin2', 'Avenida Siempre Viva 456', 'admin2@example.com', '987654321', 'password456', 'cliente'), --Eliminar después
 ('Juan Perez', 'Calle Falsa 123', 'juan@example.com', '123456789', 'password123', 'cliente'),
 ('Ana Lopez', 'Avenida Siempre Viva 456', 'ana@example.com', '987654321', 'password456', 'cliente'),
 ('Carlos Garcia', 'Calle Real 789', 'carlos@example.com', '543216789', 'password789', 'cliente'),
@@ -45,11 +43,11 @@ INSERT INTO cliente (nombre, direccion, email, telefono, contrasena, rol) VALUES
 
 -- Insertar zonas
 INSERT INTO zona (nombre, tipo, zona_geom) VALUES
-('Zona Norte', 'reparto', ST_GeomFromText('POLYGON((-70.64826 -33.43722, -70.64826 -33.4000, -70.6000 -33.4000, -70.6000 -33.43722, -70.64826 -33.43722))', 4326)),
-('Zona Sur', 'reparto', ST_GeomFromText('POLYGON((-70.6000 -33.43722, -70.6000 -33.4000, -70.54826 -33.4000, -70.54826 -33.43722, -70.6000 -33.43722))', 4326)),
-('Zona Este', 'restringida', ST_GeomFromText('POLYGON((-70.54826 -33.43722, -70.54826 -33.4000, -70.5000 -33.4000, -70.5000 -33.43722, -70.54826 -33.43722))', 4326)),
-('Zona Oeste', 'restringida', ST_GeomFromText('POLYGON((-70.64826 -33.5000, -70.64826 -33.4600, -70.6000 -33.4600, -70.6000 -33.5000, -70.64826 -33.5000))', 4326));
-
+('Santiago Centro', 'reparto', ST_GeomFromText('POLYGON((-70.6500 -33.4500, -70.6500 -33.4400, -70.6300 -33.4400, -70.6300 -33.4500, -70.6500 -33.4500))', 4326)),
+('Providencia', 'reparto', ST_GeomFromText('POLYGON((-70.6200 -33.4400, -70.6200 -33.4200, -70.5900 -33.4200, -70.5900 -33.4400, -70.6200 -33.4400))', 4326)),
+('Las Condes', 'reparto', ST_GeomFromText('POLYGON((-70.5800 -33.4200, -70.5800 -33.4000, -70.5400 -33.4000, -70.5400 -33.4200, -70.5800 -33.4200))', 4326)),
+('Maipu', 'restringida', ST_GeomFromText('POLYGON((-70.7700 -33.5100, -70.7700 -33.4800, -70.7400 -33.4800, -70.7400 -33.5100, -70.7700 -33.5100))', 4326)),
+('La Reina', 'restringida', ST_GeomFromText('POLYGON((-70.5500 -33.4500, -70.5500 -33.4300, -70.5100 -33.4300, -70.5100 -33.4500, -70.5500 -33.4500))', 4326));
 
 -- Insertar repartidores
 INSERT INTO repartidor (nombre, telefono) VALUES
@@ -61,17 +59,17 @@ INSERT INTO repartidor (nombre, telefono) VALUES
 
 -- Insertar órdenes
 INSERT INTO orden (fecha_orden, estado, id_cliente, total, ubicacion_entrega) VALUES
-('2024-09-01 10:00:00', 'pagada', 3, 500000, ST_SetSRID(ST_MakePoint(-70.645, -33.435), 4326)),
-('2024-08-20 15:30:00', 'pagada', 4, 350000, ST_SetSRID(ST_MakePoint(-70.595, -33.425), 4326)),
-('2024-11-20 09:00:00', 'pagada', 5, 1700000, ST_SetSRID(ST_MakePoint(-70.530, -33.430), 4326)),
-('2024-11-20 12:30:00', 'pagada', 6, 80000, ST_SetSRID(ST_MakePoint(-70.640, -33.465), 4326)),
-('2024-11-21 15:45:00', 'pagada', 5, 1700000, ST_SetSRID(ST_MakePoint(-70.590, -33.460), 4326)),
-('2024-11-22 14:00:00', 'pagada', 6, 300000, ST_SetSRID(ST_MakePoint(-70.620, -33.470), 4326)),
-('2024-11-23 17:30:00', 'pagada', 5, 200000, ST_SetSRID(ST_MakePoint(-70.575, -33.450), 4326)),
-('2024-11-23 18:45:00', 'pagada', 6, 150000, ST_SetSRID(ST_MakePoint(-70.605, -33.475), 4326)),
-('2024-11-24 10:00:00', 'pagada', 7, 1700000, ST_SetSRID(ST_MakePoint(-70.625, -33.480), 4326)),
-('2024-11-24 11:30:00', 'pagada', 8, 1700000, ST_SetSRID(ST_MakePoint(-70.565, -33.420), 4326)),
-('2024-11-25 09:30:00', 'pagada', 9, 1700000, ST_SetSRID(ST_MakePoint(-70.580, -33.455), 4326));
+('2024-09-01 10:00:00', 'pagada', 3, 500000, ST_SetSRID(ST_MakePoint(-70.6400, -33.4450), 4326)),
+('2024-08-20 15:30:00', 'pagada', 4, 350000, ST_SetSRID(ST_MakePoint(-70.6050, -33.4300), 4326)),
+('2024-11-20 09:00:00', 'pagada', 5, 1700000, ST_SetSRID(ST_MakePoint(-70.5600, -33.4100), 4326)),
+('2024-11-20 12:30:00', 'pagada', 6, 80000, ST_SetSRID(ST_MakePoint(-70.6400, -33.4450), 4326)),
+('2024-11-21 15:45:00', 'pagada', 5, 1700000, ST_SetSRID(ST_MakePoint(-70.6400, -33.4450), 4326)),
+('2024-11-22 14:00:00', 'pagada', 6, 300000, ST_SetSRID(ST_MakePoint(-70.6050, -33.4300), 4326)),
+('2024-11-23 17:30:00', 'pagada', 5, 200000, ST_SetSRID(ST_MakePoint(-70.5600, -33.4100), 4326)),
+('2024-11-23 18:45:00', 'pagada', 6, 150000, ST_SetSRID(ST_MakePoint(-70.6050, -33.4300), 4326)),
+('2024-11-24 10:00:00', 'pagada', 7, 1700000, ST_SetSRID(ST_MakePoint(-70.6400, -33.4450), 4326)),
+('2024-11-24 11:30:00', 'pagada', 8, 1700000, ST_SetSRID(ST_MakePoint(-70.6050, -33.4300), 4326)),
+('2024-11-25 09:30:00', 'pagada', 9, 1700000, ST_SetSRID(ST_MakePoint(-70.5600, -33.4100), 4326));
 
 
 -- Insertar relaciones entre orden, zona y repartidor
@@ -124,4 +122,5 @@ INSERT INTO empresa_zona (id_zona, id_empresa) VALUES
 (2, 1),
 (1, 2),
 (2, 3),
-(1, 4);
+(1, 4),
+(3, 4);
