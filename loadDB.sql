@@ -41,14 +41,6 @@ INSERT INTO cliente (nombre, direccion, email, telefono, contrasena, rol) VALUES
 ('Felipe Sanchez', 'Calle Rio 101', 'felipe@example.com', '112233445', 'password101', 'cliente');
 
 
--- Insertar zonas
-INSERT INTO zona (nombre, tipo, zona_geom) VALUES
-('Santiago Centro', 'reparto', ST_GeomFromText('POLYGON((-70.6500 -33.4500, -70.6500 -33.4400, -70.6300 -33.4400, -70.6300 -33.4500, -70.6500 -33.4500))', 4326)),
-('Providencia', 'reparto', ST_GeomFromText('POLYGON((-70.6200 -33.4400, -70.6200 -33.4200, -70.5900 -33.4200, -70.5900 -33.4400, -70.6200 -33.4400))', 4326)),
-('Las Condes', 'reparto', ST_GeomFromText('POLYGON((-70.5800 -33.4200, -70.5800 -33.4000, -70.5400 -33.4000, -70.5400 -33.4200, -70.5800 -33.4200))', 4326)),
-('Maipu', 'restringida', ST_GeomFromText('POLYGON((-70.7700 -33.5100, -70.7700 -33.4800, -70.7400 -33.4800, -70.7400 -33.5100, -70.7700 -33.5100))', 4326)),
-('La Reina', 'restringida', ST_GeomFromText('POLYGON((-70.5500 -33.4500, -70.5500 -33.4300, -70.5100 -33.4300, -70.5100 -33.4500, -70.5500 -33.4500))', 4326));
-
 -- Insertar repartidores
 INSERT INTO repartidor (nombre, telefono) VALUES
 ('Luis Ramirez', '123456789'),
