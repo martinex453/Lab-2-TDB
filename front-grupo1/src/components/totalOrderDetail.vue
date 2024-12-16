@@ -27,22 +27,14 @@
             <div class="map">
                 <div>
                     <h1>Ingrese dirección:</h1>
-                    <input 
-                    type="text" 
-                    v-model="direccion" 
-                    id="direccion" 
-                    @input="obtenerSugerencias"
-                    placeholder="Escriba una dirección" 
-                    />
+                    <input type="text" v-model="direccion" id="direccion" @input="onInputChange"
+                        placeholder="Escriba una dirección" />
                     <ul v-if="sugerencias.length">
-                    <li 
-                        v-for="(sugerencia, index) in sugerencias" 
-                        :key="index"
-                        @click="seleccionarDireccion(sugerencia)"
-                        style="cursor: pointer; list-style: none; margin: 5px 0;"
-                    >
-                        {{ sugerencia.display_name }}
-                    </li>
+                        <li v-for="(sugerencia, index) in sugerencias" :key="index"
+                            @click="seleccionarDireccion(sugerencia)"
+                            style="cursor: pointer; list-style: none; margin: 5px 0;">
+                            {{ sugerencia.display_name }}
+                        </li>
                     </ul>
                     <button @click="buscarCoordenadas" class="coord-button">Buscar ubicacion</button>
                 </div>
@@ -72,23 +64,24 @@ export default {
             idUser: localStorage.getItem("idUser"),
             latitud: -33.4497846,
             longitud: -70.6898598,
-            coord_act: 0
+            coord_act: 0,
+            debounceTimer: null
         };
     },
     methods: {
-        async submitOrder(){
-            if(this.coord_act == 0){
+        async submitOrder() {
+            if (this.coord_act == 0) {
                 alert("Por favor ingrese una ubicacion.");
                 return;
             }
-            if(this.$carrito.length == 0){
+            if (this.$carrito.length == 0) {
                 alert("Por favor agregue productos al carrito.");
                 return;
             }
             // Verificar si la dirección ingresada está dentro de la zona de cobertura
             const zona = await orderService.verificarZona(this.latitud, this.longitud, this.token);
             console.log(zona);
-            if(zona.data == false){
+            if (zona.data == false) {
                 alert("La dirección ingresada no está dentro de la zona de cobertura");
                 return;
             }
@@ -96,13 +89,13 @@ export default {
 
             //Convertir el carrito de compras a un arreglo JSON
             const carritoJson = [];
-            for(let i = 0; i < this.$carrito.length; i++){
+            for (let i = 0; i < this.$carrito.length; i++) {
                 const productoCarrito = {
                     id_producto: parseInt(this.$carrito[i][0]),
                     id_producto: Number(this.$carrito[i][0]),
                     cantidad: this.$carrito[i][1],
                     precio_unitario: this.$carrito[i][2],
-                    
+
                 }
                 carritoJson.push(productoCarrito);
             }
@@ -155,21 +148,21 @@ export default {
         loadGoogleMaps() {
             if (document.getElementById('google-maps-script')) return Promise.resolve();
 
-                return new Promise((resolve, reject) => {
-                    const script = document.createElement('script');
-                    script.id = 'google-maps-script';
-                    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik`;
-                    script.async = true;
-                    script.defer = true;
-                    script.onload = resolve;
-                    script.onerror = reject;
-                    document.head.appendChild(script);
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.id = 'google-maps-script';
+                script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCYAYiPijDUHxTE5FaY9rJvOpexDyccxqg`;
+                script.async = true;
+                script.defer = true;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
             });
         },
         // Funcion iniciar el mapa
         iniciarMap() {
-            var coord = {lat: this.latitud ,lng: this.longitud};
-            var map = new google.maps.Map(document.getElementById('map'),{
+            var coord = { lat: this.latitud, lng: this.longitud };
+            var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 10,
                 center: coord
             });
@@ -187,16 +180,25 @@ export default {
             try {
                 const encodedAddress = encodeURIComponent(this.direccion);
                 const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&countrycodes=cl&limit=5`
+                    `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&countrycodes=cl&limit=5`
                 );
                 const data = await response.json();
                 this.sugerencias = data;
+
                 this.error = null;
             } catch (err) {
                 this.error = "Error obteniendo sugerencias de direcciones.";
             }
-            },
-            
+        },
+        onInputChange() {
+            // Cancelamos cualquier solicitud pendiente
+            clearTimeout(this.debounceTimer);
+
+            // Establecemos un nuevo temporizador
+            this.debounceTimer = setTimeout(() => {
+                this.obtenerSugerencias(); // Llamamos a la API después de un retraso
+            }, 1500); // 500ms de espera después de que el usuario deja de escribir
+        },
         seleccionarDireccion(sugerencia) {
             this.direccion = sugerencia.display_name;
             this.coordenadas = { lat: sugerencia.lat, lon: sugerencia.lon };
@@ -256,42 +258,49 @@ export default {
 <style>
 /* Estilo del campo de entrada */
 input {
-  width: 100%;
-  padding: 12px; /* Aumentado para mayor consistencia */
-  font-size: 16px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    padding: 12px;
+    /* Aumentado para mayor consistencia */
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Contenedor de la lista de sugerencias */
 ul {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-top: 0;
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: 15px; /* Más consistente con otros textos */
-  max-height: 200px; /* Limitar la altura para que no ocupe demasiado espacio */
-  overflow-y: auto; /* Scroll si hay muchas sugerencias */
-  color: #333; /* Texto más oscuro para mayor legibilidad */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 0;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 15px;
+    /* Más consistente con otros textos */
+    max-height: 200px;
+    /* Limitar la altura para que no ocupe demasiado espacio */
+    overflow-y: auto;
+    /* Scroll si hay muchas sugerencias */
+    color: #333;
+    /* Texto más oscuro para mayor legibilidad */
 }
 
 /* Estilo de los elementos de la lista */
 li {
-  list-style: none;
-  padding: 8px 12px;
-  border-radius: 3px;
-  transition: background-color 0.2s;
-  cursor: pointer;
+    list-style: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+    cursor: pointer;
 }
 
 /* Hover de los elementos de la lista */
 li:hover {
-  background-color: #f9f9f9; /* Color más claro */
-  color: #000; /* Aumentar contraste */
+    background-color: #f9f9f9;
+    /* Color más claro */
+    color: #000;
+    /* Aumentar contraste */
 }
 
 .container-order-summary {
@@ -325,8 +334,8 @@ li:hover {
 }
 
 .map #map {
-	height: 500px;
-	width: 100%;
+    height: 500px;
+    width: 100%;
     margin-bottom: 10px;
 }
 
@@ -362,7 +371,8 @@ thead {
     color: white;
 }
 
-th, td {
+th,
+td {
     text-align: center;
     padding: 10px;
     border-bottom: 1px solid #ddd;
@@ -372,7 +382,8 @@ tbody tr:hover {
     background-color: #f9f9f9;
 }
 
-h1, h2 {
+h1,
+h2 {
     text-align: center;
     color: #333;
 }
