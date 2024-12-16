@@ -180,16 +180,22 @@ export default {
             try {
                 const encodedAddress = encodeURIComponent(this.direccion);
                 const response = await fetch(
-                    `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&countrycodes=cl&limit=5`
+                    `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&countrycodes=cl&limit=5`,
+                    {
+                        headers: {
+                            "User-Agent": "UniversityProject/1.0 (alvaro.zamorano@usach.cl)"
+                        }
+                    }
                 );
                 const data = await response.json();
                 this.sugerencias = data;
-
                 this.error = null;
             } catch (err) {
+                console.error("Error obteniendo sugerencias de direcciones:", err);
                 this.error = "Error obteniendo sugerencias de direcciones.";
             }
         },
+
         onInputChange() {
             // Cancelamos cualquier solicitud pendiente
             clearTimeout(this.debounceTimer);
@@ -214,8 +220,14 @@ export default {
             try {
                 const encodedAddress = encodeURIComponent(this.direccion);
                 const response = await fetch(
-                    `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&countrycodes=cl`
+                    `https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&addressdetails=1&countrycodes=cl`,
+                    {
+                        headers: {
+                            "User-Agent": "UniversityProject/1.0 (alvaro.zamorano@usach.cl)"
+                        }
+                    }
                 );
+
                 const data = await response.json();
 
                 if (data.length === 0) {
@@ -225,17 +237,23 @@ export default {
                     this.coordenadas = { lat: data[0].lat, lon: data[0].lon };
                     this.error = null;
                 }
+
                 this.latitud = Number(this.coordenadas.lat);
                 this.longitud = Number(this.coordenadas.lon);
+
+                // Cargar Google Maps y configurar mapa
                 await this.loadGoogleMaps();
                 this.iniciarMap();
+
                 this.coord_act = 1;
                 this.direccion = "";
                 console.log(this.coord_act);
             } catch (err) {
+                console.error("Error buscando las coordenadas:", err);
                 this.error = "Error buscando las coordenadas de la dirección.";
             }
-        },
+        }
+
     },
     async created() {
         //Cargar el carrito de compras, obtener los nombres de los productos y calcular el precio total al cargar el componente
