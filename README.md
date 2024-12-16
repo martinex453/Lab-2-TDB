@@ -43,11 +43,11 @@ Ingresa la contraseña del usuario postgres cuando se solicite.
 ```sh
 \i C:/ruta/DBCreate.sql  
 ```
-Esto creará la estructura de la base de datos necesaria para la aplicación.
 * Carga el archivo para insertar las zonas:
 ```
 \i C:/ruta/insert_zona.sql
 ```
+Esto creará la estructura de la base de datos necesaria para la aplicación.
 
 3. Ejecutar el backend
 * Abre la carpeta back-grupo1 en IntelliJ IDEA.
